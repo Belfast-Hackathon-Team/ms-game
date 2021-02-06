@@ -1,7 +1,3 @@
-function ControlMusic()
-
-end
-
 local normalPlaying = false
 local battlePlaying = false
 local fasterPlaying = false

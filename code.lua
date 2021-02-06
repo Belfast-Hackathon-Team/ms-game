@@ -1,5 +1,6 @@
 -- Load scripts here
 LoadScript("music")
+LoadScript("timer")
 LoadScript("physics-boat")
 LoadScript("physics-island")
 LoadScript("physics-egg")
@@ -49,6 +50,7 @@ Player = {
 }
 
 ListOfActiveIslands = {}
+local TimeLeft = 0
 
 function Init()
   BackgroundColor( 2 )
@@ -59,6 +61,7 @@ function Update(timeDelta)
   AiPhysics()
   DrawIslands()
   EggPhysics()
+  TimeLeft = TickTimer(1.3)
 end
 
 function Draw()
@@ -67,4 +70,5 @@ function Draw()
   DrawSprite(1, AI.X, AI.Y, false, false, DrawMode.Sprite)
   DrawText( Boat.Direction, 100, 100, DrawMode.UI, "large", 14 )
   DrawText( AI.Direction, 100, 200, DrawMode.UI, "large", 14 )
+  DrawText( string.format("Time: %.2f", (TimeLeft / 100)), 25, 50, DrawMode.UI, "large", 14 )
 end
