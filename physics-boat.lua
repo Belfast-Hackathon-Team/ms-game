@@ -17,6 +17,8 @@ function CheckIslandBounds()
         else
           StopHopSound()
         end
+      else
+        StopHopSound()
       end
     end
   end
