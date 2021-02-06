@@ -15,7 +15,7 @@ local DistanceFromPlayer = 0
 local TargetX = 0
 local TargetY = 0
 local Theta = 0
-local IsTargetBoat = false
+local IsTargetBoat = true
 
 function AiMovement()
   SqrtTwo = 1.41421 -- Approximate Square Root of 2
@@ -57,6 +57,8 @@ function AiMovement()
   AI.X = AI.X + AI.DeltaX
 end
 
+local BoundaryCounter = 1
+
 function FindTarget()
   if DistanceFromPlayer <= 70 then
     PlayBattle()
@@ -64,9 +66,22 @@ function FindTarget()
     TargetX = Boat.X
     TargetY = Boat.Y
   else
-    if IsTargetBoat or (AI.X - TargetX and AI.Y == TargetY) then -- come back to this
-      TargetX = math.random(10, 254)
-      TargetY = math.random(10, 230)
+    if IsTargetBoat or (math.abs(AI.X - TargetX) < 10 and math.abs(AI.Y - TargetY) < 10) then -- come back to this
+      if BoundaryCounter == 1 then
+        TargetX = math.random(20, 112)
+        TargetY = math.random(20, 100)
+      elseif BoundaryCounter == 2 then
+        TargetX = math.random(152, 244)
+        TargetY = math.random(20, 112)
+      elseif BoundaryCounter == 3 then
+        TargetX = math.random(152, 244)
+        TargetY = math.random(142, 234)
+      elseif BoundaryCounter == 4 then
+        TargetX = math.random(20, 112)
+        TargetY = math.random(142, 234)
+        BoundaryCounter = 0
+      end
+      BoundaryCounter = BoundaryCounter + 1
       IsTargetBoat = false
       PlayNormal()
     end
