@@ -100,6 +100,7 @@ function BoatMovement()
 
   if Button(Buttons.B, InputState.Down, 0) and Boat.Speed > 0 and Boat.Speed <= Boat.MinSpeed + 0.1 then
     Boat.IsAnchored = true
+    AnchorSound()
     Boat.Speed = 0
   end
 

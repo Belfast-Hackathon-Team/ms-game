@@ -61,6 +61,7 @@ local BoundaryCounter = 1
 
 function FindTarget()
   if DistanceFromPlayer <= 70 then
+    PlayBattle()
     IsTargetBoat = true
     TargetX = Boat.X
     TargetY = Boat.Y
@@ -82,6 +83,7 @@ function FindTarget()
       end
       BoundaryCounter = BoundaryCounter + 1
       IsTargetBoat = false
+      PlayNormal()
     end
   end
 end
