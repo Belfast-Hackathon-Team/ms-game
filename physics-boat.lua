@@ -13,6 +13,9 @@ function CheckIslandBounds()
       if Boat.X >= island[2] -5 and Boat.X <= island[2] + SpriteSize.X*island[4] then
         if Boat.Y >= island[3] -5 and Boat.Y <= island[3] + SpriteSize.Y*island[4] then
           Boat.IsAtIsland = true
+          HopSound()
+        else
+          StopHopSound()
         end
       end
     end

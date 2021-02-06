@@ -2,6 +2,8 @@ local normalPlaying = false
 local battlePlaying = false
 local fasterPlaying = false
 
+local fxPlaying = false
+
 normalPlace = 0
 battlePlace = 0
 fasterPlace = 0
@@ -53,4 +55,15 @@ end
 
 function AnchorSound()
   PlaySound(6, 1)
+end
+
+function HopSound()
+  if not (fxPlaying) then
+    fxPlaying = true
+    PlaySound(5, 1)
+  end
+end
+
+function StopHopSound()
+  fxPlaying = false
 end
