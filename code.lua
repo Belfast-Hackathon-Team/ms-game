@@ -88,5 +88,5 @@ function Draw()
   DrawIslands()
   ChangeBoatSprite()
   DrawBoatPos()
-  DrawText( string.format("Time: %.2f", (TimeLeft / 100)), 25, 50, DrawMode.UI, "large", 14 )
+  DrawText( string.format("Time: %.0f", (TimeLeft / 100)), 25, 50, DrawMode.UI, "large", 14 )
 end
