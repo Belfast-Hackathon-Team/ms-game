@@ -3,6 +3,7 @@ LoadScript("physics-boat")
 LoadScript("physics-island")
 LoadScript("physics-egg")
 LoadScript("physics-ai")
+--LoadScript("boat-cannon")
 -- Load scenes here
 
 
@@ -14,6 +15,7 @@ Boat = {
   MaxSpeed = 1.5,
   MinSpeed = 0.1,
   IsAnchored = false,
+  IsAtIsland = false,
 
   X = 100,
   Y = 50,
@@ -45,7 +47,7 @@ end
 function Update(timeDelta)
   BoatPhysics()
   AiPhysics()
-  IslandPhysics()
+  DrawIslands()
   EggPhysics()
 end
 
