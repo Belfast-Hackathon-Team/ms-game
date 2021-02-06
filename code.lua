@@ -26,8 +26,10 @@ Boat = {
 }
 
 AI = {
-  X = 200,
-  Y = 100,
+  --QuadgrantBoundaries = {{{10, 122}, {10, 110}}, {{142, 254}, {10, 110}}, { {142, 254}, {10, 110} }, { {10, 122}, {142, 254} } }
+  --SpawnQuadrant = math.random(1, 4) -- 1 representing the top left of the map going clockwise
+  X = 40, --math.random(QuadgrantBoundaries[SpawnQuadrant][1][1], QuadgrantBoundaries[SpawnQuadrant][1][2]),
+  Y = 220, --math.random(QuadgrantBoundaries[SpawnQuadrant][2][1], QuadgrantBoundaries[SpawnQuadrant][2][2]),
   Speed = Boat.MaxSpeed * 0.5,
   DeltaX = 0,
   DeltaY = 0,
