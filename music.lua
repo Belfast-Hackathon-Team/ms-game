@@ -2,37 +2,68 @@ local normalPlaying = false
 local battlePlaying = false
 local fasterPlaying = false
 
-function PlayNormal()
-  if not (normalPlaying) then
-    PauseMusic()
-    PlaySong( 0, true )
-    normalPlaying = true
+local fxPlaying = false
+
+normalPlace = 0
+battlePlace = 0
+fasterPlace = 0
+
+function StartBattleMusic()
+  if not (battlePlaying) then
+    if (normalPlaying) then
+      normalPlace = SongData().pattern
+    elseif (fasterPlaying) then
+      fasterPlace = SongData().pattern
+    end
+    PlaySong(2, true, battlePlace)
+    battlePlaying = true
   end
 end
 
-function PlayBattle()
-  if not (battlePlaying) then
-    PauseMusic()
-    PlaySong( 2, true )
-    battlePlaying = true
+function StopBattleMusic()
+  if(battlePlaying) then
+    battlePlace = SongData().pattern
+    StopSong()
+    if(normalPlaying) then
+      PlaySong( 0, true, normalPlace )
+      fasterPlaying = false
+    elseif (fasterPlaying) then
+      PlaySong( 1, true, fasterPlace )
+      normalPlaying = false
+    end
+    battlePlaying = false
+  end
+end
+
+function PlayNormal()
+  if not (normalPlaying) then
+    StopSong()
+    PlaySong( 0, true )
+    normalPlaying = true
+    fasterPlaying = false
   end
 end
 
 function PlayFaster()
   if not (fasterPlaying) then
-    PauseMusic()
+    StopSong()
     PlaySong( 1, true )
     fasterPlaying = true
+    normalPlaying = false
   end
 end
 
-function PauseMusic()
-  PauseSong()
-  normalPlaying = false
-  battlePlaying = false
-  fasterPlaying = false
+function AnchorSound()
+  PlaySound(6, 1)
 end
 
-function AnchorSound()
-  PlaySound(6)
+function HopSound()
+  if not (fxPlaying) then
+    fxPlaying = true
+    PlaySound(5, 1)
+  end
+end
+
+function StopHopSound()
+  fxPlaying = false
 end

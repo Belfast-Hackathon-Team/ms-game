@@ -56,6 +56,7 @@ local TimeLeft = 0
 
 function Init()
   BackgroundColor( 2 )
+  PlayNormal()
 end
 
 function Update(timeDelta)
@@ -87,5 +88,5 @@ function Draw()
   DrawIslands()
   ChangeBoatSprite()
   DrawBoatPos()
-  DrawText( string.format("Time: %.2f", (TimeLeft / 100)), 25, 50, DrawMode.UI, "large", 14 )
+  DrawText( string.format("Time: %.0f", (TimeLeft / 100)), 210, 0, DrawMode.UI, "small", 14, -3 )
 end
