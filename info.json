@@ -6,7 +6,7 @@
     "gpuChip":"PV8",
     "cartChip":"PV8",
     "soundChip":"PV8",
-    "ignoreProcessing":"False",
+    "ignoreProcessing":"True",
     "ignoreOptimizeWarning":"False",
     "paletteMode":"false",
     

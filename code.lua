@@ -61,16 +61,31 @@ end
 function Update(timeDelta)
   BoatPhysics()
   AiPhysics()
-  DrawIslands()
   EggPhysics()
   TimeLeft = TickTimer(1.3)
 end
 
+function DrawCompass()
+  MapSize = TilemapSize()
+  DrawText( "N", (MapSize.x/2)-10, 10, DrawMode.UI, "large", 14 )
+  DrawText( "S", (MapSize.x/2)-10, MapSize.Y*0.88, DrawMode.UI, "large", 14 )
+  DrawText( "W", MapSize.x + 15, (MapSize.Y/2)-10, DrawMode.UI, "large", 14 )
+  DrawText( "E", MapSize.x * 0.95, (MapSize.Y/2)-10, DrawMode.UI, "large", 14 )
+end
+
+function DrawBoatPos()
+  DrawText( "Pos X: "..math.floor(Boat.X), MapSize.x*0.01, MapSize.y*0.01, DrawMode.UI, "small", 14 )
+  DrawText( "Pos Y: "..math.floor(Boat.Y), MapSize.x*0.01, MapSize.y*0.04, DrawMode.UI, "small", 14 )
+end
+
 function Draw()
   RedrawDisplay()
-  DrawSprite(0, Boat.X, Boat.Y, false, false, DrawMode.Sprite)
   DrawSprite(1, AI.X, AI.Y, false, false, DrawMode.Sprite)
   DrawText( Boat.Direction, 100, 100, DrawMode.UI, "large", 14 )
   DrawText( AI.Direction, 100, 200, DrawMode.UI, "large", 14 )
+  DrawCompass()
+  DrawIslands()
+  ChangeBoatSprite()
+  DrawBoatPos()
   DrawText( string.format("Time: %.2f", (TimeLeft / 100)), 25, 50, DrawMode.UI, "large", 14 )
 end
