@@ -12,19 +12,12 @@ function DrawIslands()
     IslandData = GenerateIslands()
   end
 
-    for index,island in pairs(IslandData) do
-      DrawSpriteBlock(island[1],island[2],island[3],4,4,false,false,DrawMode.Sprite,0,true,false)
-      DrawText( "Island Pos X: "..math.floor(island[2]), MapSize.x*0.1, MapSize.y*0.1, DrawMode.UI, "large", 14 )
-      DrawText( "Island Pos Y: "..math.floor(island[3]), MapSize.x*0.1, MapSize.y*0.13, DrawMode.UI, "large", 14 )
-    end
+  for index,island in pairs(IslandData) do
+    DrawSpriteBlock(island[1],island[2],island[3],island[4],island[4],false,false,DrawMode.Sprite,0,true,false)
+    DrawText( "Island Pos X: "..math.floor(island[2]), MapSize.x*0.1, MapSize.y*0.1, DrawMode.UI, "large", 14 )
+    DrawText( "Island Pos Y: "..math.floor(island[3]), MapSize.x*0.1, MapSize.y*0.13, DrawMode.UI, "large", 14 )
+  end
 
-  -- local spriteID = IslandData[1]
-  -- local X = IslandData[2]
-  -- local Y = IslandData[3]
-  --
-  -- DrawSprite(spriteID,X,Y,false,false,DrawMode.Sprite)
-  -- DrawText( "Island Pos X: "..X, 100, 50, DrawMode.UI, "large", 14)
-  -- DrawText( "Island Pos Y: "..Y, 100, 150, DrawMode.UI, "large", 14)
 end
 
 --function CheckIfIslandExists(XRange, YRange)
@@ -34,11 +27,20 @@ end
 function GenerateIslands()
   numIslands = math.random(1,3)
   Islands = {}
+  local multiplier = 0
   local islandRangesX = {} -- 16 -> 240
   local islandRanges = {16, 86, 156, 220} -- 16 -> 220
+  local islandSpriteIndexes = {4,68}
+  local islandSpriteIndex = islandSpriteIndexes[math.random(1,2)]
+
+  if islandSpriteIndex == 4 then
+    multiplier = 4
+  elseif islandSpriteIndex == 68 then
+    multiplier = 8
+  end
 
   for i = 1,numIslands do
-      island = {4, math.random(islandRanges[i],islandRanges[i+1]), math.random(islandRanges[i], islandRanges[i+1])}
+      island = {islandSpriteIndex, math.random(islandRanges[i],islandRanges[i+1]), math.random(islandRanges[i], islandRanges[i+1]), multiplier}
       Islands[i] = island
   end
 

@@ -6,11 +6,12 @@ end
 
 function CheckIslandBounds()
   DrawText( Boat.IsAtIsland, 100, 50, DrawMode.UI, "large", 14)
+  local SpriteSize = SpriteSize()
   Boat.IsAtIsland = false
   if IslandData != nil then
     for index,island in pairs(IslandData) do
-      if Boat.X >= island[2] -5 and Boat.X <= island[2] + 32 then
-        if Boat.Y >= island[3] -5 and Boat.Y <= island[3] + 32 then
+      if Boat.X >= island[2] -5 and Boat.X <= island[2] + SpriteSize.X*island[4] then
+        if Boat.Y >= island[3] -5 and Boat.Y <= island[3] + SpriteSize.Y*island[4] then
           Boat.IsAtIsland = true
         end
       end
@@ -105,11 +106,10 @@ function BoatMovement()
     Boat.DeltaX = Boat.Speed
     Boat.DeltaY = Boat.Speed
 
-  if Button(Buttons.B, InputState.Down, 0) and Boat.Speed > 0 and Boat.Speed <= Boat.MinSpeed + 0.1 then
-    Boat.IsAnchored = true
-    AnchorSound()
-    Boat.Speed = 0
-  end
+    if Button(Buttons.B, InputState.Down, 0) and Boat.Speed > 0 and Boat.Speed <= Boat.MinSpeed + 0.1 then
+      Boat.IsAnchored = true
+      Boat.Speed = 0
+    end
 
     if Boat.Speed > 0 then
       Boat.IsAnchored = false
