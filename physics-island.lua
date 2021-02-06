@@ -1,45 +1,55 @@
-function IslandPhysics()
+IslandData = nil
+
+local IslandTypes = {"Obstacle","Small","Medium","Large"}
+
+local dictionarySize = 0
+local IslandLocations = {
+
+}
+
+function DrawIslands()
+  if IslandData == nil then
+    IslandData = GenerateIslands()
+  end
+
+  for index,island in pairs(IslandData) do
+    DrawSpriteBlock(island[1],island[2],island[3],16,16,false,false,DrawMode.Sprite,0,true,false)
+  end
+
+  -- local spriteID = IslandData[1]
+  -- local X = IslandData[2]
+  -- local Y = IslandData[3]
+  --
+  -- DrawSprite(spriteID,X,Y,false,false,DrawMode.Sprite)
+  -- DrawText( "Island Pos X: "..X, 100, 50, DrawMode.UI, "large", 14)
+  -- DrawText( "Island Pos Y: "..Y, 100, 150, DrawMode.UI, "large", 14)
 end
 
 --function CheckIfIslandExists(XRange, YRange)
   --for x,y in XRange, YRange do
 --end
 
-function SpawnBlock()
---- DrawSpriteBlock
--- within0,10,11,12,13,14,15,16}
-  --- randomly draw a new island
+function GenerateIslands()
+  numIslands = math.random(1,3)
+  Islands = {}
+  local islandRangesX = {} -- 16 -> 240
+  local islandRanges = {16, 86, 156, 220} -- 16 -> 220
 
-  --[[ possible island solution
-  256x248
-
-  for x = 256,248 do
-
+  for i = 1,numIslands do
+      island = {2, math.random(islandRanges[i],islandRanges[i+1]), math.random(islandRanges[i], islandRanges[i+1])}
+      Islands[i] = island
   end
 
-  ]]
-
-  newIsland = {
-    ID = math.random(10,16),
-    X = math.random(0, 256),
-    Y = math.random(0, 248)
-  }
-  DrawSprite(newIsland.ID, newIsland.X, newIsland.Y, false, false, DrawMode.Sprite)
-end
-
-function SpawnIsland()
-  islandSprite = math.random(10,16)
-  islandLength = math.random(3,5)
-  islandWidth = math.random(3,5)
-  X = math.random(0,256)
-  Y = math.random(0,256)
-  --check if there is an Island at these tiles already
-  DrawSpriteBlock(islandSprite,X,Y,islandLength,islandWidth,false,false,DrawMode.Sprite)
-  DrawText( X+", "+Y , 100, 100, DrawMode.UI)
+  return Islands
 end
 
 
-function Collide()
+
+--function Collide(Boat)
 --- Boat and an Island are touching ---hashmap
 -- for index, value in pairs(table name) do
-end
+--check if along perimeter
+--for k,v in pairs(t) do
+--    if(t)
+--end
+--end
