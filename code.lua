@@ -99,7 +99,7 @@ end
 
 function Draw()
   if not (GameStarted) then
-    DrawText("Press B To Start", 100, 100, DrawMode.UI, "large", 14)
+      DrawStartScreen()
     return
   end
   RedrawDisplay()
@@ -117,4 +117,19 @@ function StartScreen()
   if Button(Buttons.B, InputState.Down, 0) then
     GameStarted = true
   end
+end
+
+Controls = "Up -> Accelerate\nDown -> Deccelerate\nRight -> Turn right\nLeft -> Turn Left\nB -> Drop Anchor"
+
+function DrawStartScreen()
+  DrawText("Press B To Start", 60, 450, DrawMode.UI, "large", 14)
+  DrawText("Welcome to Eggsplorers!", 40, 30, DrawMode.UI, "large", 14)
+  DrawText("Controls: ", 90, 50, DrawMode.UI, "large", 14)
+  DrawText("Up    ->  Accelerate", 45, 70, DrawMode.UI, "medium", 14)
+  DrawText("Down  ->  Deccelerate", 45, 80, DrawMode.UI, "medium", 14)
+  DrawText("Right ->  Turn right", 45, 90, DrawMode.UI, "medium", 14)
+  DrawText("Left  ->  Turn left", 45, 100, DrawMode.UI, "medium", 14)
+  DrawText("B     ->  Drop anchor", 45, 110, DrawMode.UI, "medium", 14)
+  DrawText("You must be travelling at minimum speed", 10, 150, DrawMode.UI, "medium", 14, -2)
+  DrawText("to drop your anchor.", 60, 160, DrawMode.UI, "medium", 14, -2)
 end
