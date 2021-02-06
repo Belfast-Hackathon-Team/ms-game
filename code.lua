@@ -1,5 +1,4 @@
--- Load sprites here
-
+-- Load sprites here--feafdsdwedawdwadwafaefegergresgwersddg
 -- Load scenes here
 Boat = {
 ---properties of a Raft
@@ -8,6 +7,7 @@ Boat = {
   Speed = 0.1,
   MaxSpeed = 1.5,
   MinSpeed = 0.1,
+  IsAnchored = false,
 
   X = 100,
   Y = 50,
@@ -98,35 +98,37 @@ function ChangeDirection(DirectionalChange)
 
 end
 
+-- Table management
+
 local KeysPressed = {}
 
-function HasValue(table, val)
-  for _,Keys in pairs(table) do
-    if Keys == val then
-      return true
-    end
+function HasValue(table, valueToCheck)
+  if table[valueToCheck] == true then
+    return true
   end
 end
 
-function Insert(table, val)
-  local index = 0
-  for k,_ in pairs(table) do
-    index = index + 1
-  end
-  table[index+1] = val
+function Insert(table, valueToInsert)
+  table[valueToInsert] = true
 end
 
-function Remove(table, val)
-  for index,v in pairs(table) do
-    if v == val then
-      table[index] = nil
-    end
-  end
+function Remove(table, valueToRemove)
+  table[valueToRemove] = false
 end
+
 
 function BoatMovement()
   Boat.DeltaX = Boat.Speed
   Boat.DeltaY = Boat.Speed
+
+  if Button(Buttons.B, InputState.Down, 0) and Boat.Speed > 0 and Boat.Speed <= Boat.MinSpeed + 0.1 then
+    Boat.IsAnchored = true
+    Boat.Speed = 0
+  end
+
+  if Boat.Speed > 0 then
+    Boat.IsAnchored = false
+  end
 
   --[[
   we can either move    N,            NE,         E,        SE,          S,         SW,                 W,          NW
@@ -182,8 +184,6 @@ function BoatMovement()
     end
   end
 
-
-
   if Button(Buttons.Up, InputState.Down, 0) then
     if Boat.Speed < Boat.MaxSpeed then
       Boat.Speed = Boat.Speed + 0.01
@@ -217,13 +217,14 @@ function Draw()
   RedrawDisplay()
   DrawSprite(0, Boat.X, Boat.Y, false, false, DrawMode.Sprite)
   DrawText( Boat.Direction, 100, 100, DrawMode.UI, "large", 14 )
+  DrawText( Boat.IsAnchored, 100, 200, DrawMode.UI, "large", 14 )
 end
 
 --function CheckIfIslandExists(XRange, YRange)
   --for x,y in XRange, YRange do
 --end
 
-function SpawnIsland()
+function SpawnBlock()
 --- DrawSpriteBlock
 -- within0,10,11,12,13,14,15,16}
   --- randomly draw a new island
@@ -245,6 +246,11 @@ function SpawnIsland()
   DrawSprite(newIsland.ID, newIsland.X, newIsland.Y, false, false, DrawMode.Sprite)
 end
 
+function SpawnLandMass()
+  --check if there is an Island at these tiles already
+
+  DrawSpriteBlock(math.random(10,16),0,0,3,3,false,false,DrawMode.Sprite)
+end
 function Collide()
 --- Boat and an Island are touching
 -- for index, value in pairs(table name) do
