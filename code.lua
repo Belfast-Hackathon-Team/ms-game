@@ -1,4 +1,6 @@
 -- Load scripts here
+LoadScript("music")
+LoadScript("timer")
 LoadScript("physics-boat")
 LoadScript("physics-island")
 LoadScript("physics-egg")
@@ -26,8 +28,10 @@ Boat = {
 }
 
 AI = {
-  X = 200,
-  Y = 100,
+  --QuadgrantBoundaries = {{{10, 122}, {10, 110}}, {{142, 254}, {10, 110}}, { {142, 254}, {10, 110} }, { {10, 122}, {142, 254} } }
+  --SpawnQuadrant = math.random(1, 4) -- 1 representing the top left of the map going clockwise
+  X = 40, --math.random(QuadgrantBoundaries[SpawnQuadrant][1][1], QuadgrantBoundaries[SpawnQuadrant][1][2]),
+  Y = 220, --math.random(QuadgrantBoundaries[SpawnQuadrant][2][1], QuadgrantBoundaries[SpawnQuadrant][2][2]),
   Speed = Boat.MaxSpeed * 0.5,
   DeltaX = 0,
   DeltaY = 0,
@@ -48,6 +52,7 @@ Player = {
 }
 
 ListOfActiveIslands = {}
+local TimeLeft = 0
 
 function Init()
   BackgroundColor( 2 )
@@ -57,6 +62,7 @@ function Update(timeDelta)
   BoatPhysics()
   AiPhysics()
   EggPhysics()
+  TimeLeft = TickTimer(1.3)
 end
 
 function DrawCompass()
@@ -81,5 +87,5 @@ function Draw()
   DrawIslands()
   ChangeBoatSprite()
   DrawBoatPos()
-
+  DrawText( string.format("Time: %.2f", (TimeLeft / 100)), 25, 50, DrawMode.UI, "large", 14 )
 end
