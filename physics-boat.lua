@@ -1,10 +1,28 @@
 function BoatPhysics()
   BoatMovement()
   CheckMapBounds()
+  CheckIslandBounds()
+end
+
+function CheckIslandBounds()
+  --IslandData {spriteid, x, y}
+  -- 16X16 island
+  DrawText( Boat.IsAtIsland, 100, 50, DrawMode.UI, "large", 14)
+  Boat.IsAtIsland = false
+  if IslandData != nil then
+    for index,island in pairs(IslandData) do
+      if Boat.X < island[2] + 16 and Boat.X > island[2] - 5 then
+        if Boat.Y < island[3] + 16 and Boat.Y > island[3] - 5 then
+          Boat.IsAtIsland = true
+        end
+      end
+    end
+  end
 end
 
 function RefreshMap()
-   BackgroundColor(2)
+  IslandData = nil
+  DrawIslands()
 end
 
 function CheckMapBounds()
