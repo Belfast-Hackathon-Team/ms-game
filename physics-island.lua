@@ -12,9 +12,11 @@ function DrawIslands()
     IslandData = GenerateIslands()
   end
 
-  for index,island in pairs(IslandData) do
-    DrawSpriteBlock(island[1],island[2],island[3],16,16,false,false,DrawMode.Sprite,0,true,false)
-  end
+    for index,island in pairs(IslandData) do
+      DrawSpriteBlock(island[1],island[2],island[3],4,4,false,false,DrawMode.Sprite,0,true,false)
+      DrawText( "Island Pos X: "..math.floor(island[2]), MapSize.x*0.1, MapSize.y*0.1, DrawMode.UI, "large", 14 )
+      DrawText( "Island Pos Y: "..math.floor(island[3]), MapSize.x*0.1, MapSize.y*0.13, DrawMode.UI, "large", 14 )
+    end
 
   -- local spriteID = IslandData[1]
   -- local X = IslandData[2]
@@ -36,7 +38,7 @@ function GenerateIslands()
   local islandRanges = {16, 86, 156, 220} -- 16 -> 220
 
   for i = 1,numIslands do
-      island = {2, math.random(islandRanges[i],islandRanges[i+1]), math.random(islandRanges[i], islandRanges[i+1])}
+      island = {4, math.random(islandRanges[i],islandRanges[i+1]), math.random(islandRanges[i], islandRanges[i+1])}
       Islands[i] = island
   end
 
