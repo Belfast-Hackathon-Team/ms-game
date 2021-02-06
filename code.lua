@@ -23,6 +23,15 @@ Boat = {
 
 }
 
+AI = {
+  X = 200,
+  Y = 100,
+  Speed = Boat.MaxSpeed * 0.5,
+  DeltaX = 0,
+  DeltaY = 0,
+  Direction = 0 -- 0 == North, 90 == East, 180 == South, 270 == West#
+}
+
 -- makeshift inheritance
 -- Raft = {
 --   Raft.Height = Boat.Height
@@ -52,6 +61,7 @@ end
 function Draw()
   RedrawDisplay()
   DrawSprite(0, Boat.X, Boat.Y, false, false, DrawMode.Sprite)
+  DrawSprite(1, AI.X, AI.Y, false, false, DrawMode.Sprite)
   DrawText( Boat.Direction, 100, 100, DrawMode.UI, "large", 14 )
-  DrawText( Boat.IsAnchored, 100, 200, DrawMode.UI, "large", 14 )
+  DrawText( AI.Direction, 100, 200, DrawMode.UI, "large", 14 )
 end
