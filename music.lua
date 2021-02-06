@@ -53,6 +53,11 @@ function PlayFaster()
   end
 end
 
+function PlayWellerman()
+  StopSong()
+  PlaySong(3, true)
+end
+
 function AnchorSound()
   PlaySound(6, 1)
 end

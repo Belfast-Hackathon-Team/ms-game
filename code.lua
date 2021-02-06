@@ -52,18 +52,36 @@ Player = {
 }
 
 ListOfActiveIslands = {}
-local TimeLeft = 0
+local TimeLeft = 1
+GameStarted = false
 
 function Init()
   BackgroundColor( 2 )
-  PlayNormal()
+  PlayWellerman()
+  GameStarted = false
 end
 
 function Update(timeDelta)
+  if not (GameStarted) then
+    StartScreen()
+    return
+  end
   BoatPhysics()
   AiPhysics()
   EggPhysics()
-  TimeLeft = TickTimer(1.3)
+  CheckTime()
+end
+
+function CheckTime()
+  if(TimeLeft > 0) then
+    TimeLeft = TickTimer(1.3)
+    if(TimeLeft <= 15) then
+      PlayFaster()
+    end
+    PlayNormal()
+  else
+    -- TODO: end game
+  end
 end
 
 function DrawCompass()
@@ -80,6 +98,10 @@ function DrawBoatPos()
 end
 
 function Draw()
+  if not (GameStarted) then
+    DrawText("Press B To Start", 100, 100, DrawMode.UI, "large", 14)
+    return
+  end
   RedrawDisplay()
   DrawSprite(1, AI.X, AI.Y, false, false, DrawMode.Sprite)
   DrawText( Boat.Direction, 100, 100, DrawMode.UI, "large", 14 )
@@ -89,4 +111,10 @@ function Draw()
   ChangeBoatSprite()
   DrawBoatPos()
   DrawText( string.format("Time: %.0f", (TimeLeft / 100)), 210, 0, DrawMode.UI, "small", 14, -3 )
+end
+
+function StartScreen()
+  if Button(Buttons.B, InputState.Down, 0) then
+    GameStarted = true
+  end
 end
