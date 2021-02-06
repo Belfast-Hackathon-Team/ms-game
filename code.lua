@@ -1,4 +1,5 @@
 -- Load scripts here
+LoadScript("music")
 LoadScript("physics-boat")
 LoadScript("physics-island")
 LoadScript("physics-egg")

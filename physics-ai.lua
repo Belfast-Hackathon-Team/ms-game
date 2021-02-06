@@ -58,7 +58,8 @@ function AiMovement()
 end
 
 function FindTarget()
-  if DistanceFromPlayer <= 40 then
+  if DistanceFromPlayer <= 70 then
+    PlayBattle()
     IsTargetBoat = true
     TargetX = Boat.X
     TargetY = Boat.Y
@@ -67,6 +68,7 @@ function FindTarget()
       TargetX = math.random(10, 254)
       TargetY = math.random(10, 230)
       IsTargetBoat = false
+      PlayNormal()
     end
   end
 end
