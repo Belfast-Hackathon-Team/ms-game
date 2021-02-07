@@ -1,5 +1,6 @@
 function BoatPhysics()
   CheckIslandBounds()
+  CheckEggBounds()
   BoatMovement()
   CheckMapBounds()
 end
@@ -7,7 +8,6 @@ end
 function CheckIslandBounds()
   DrawText( Boat.IsAtIsland, 100, 50, DrawMode.UI, "large", 14)
   local SpriteSize = SpriteSize()
-  local pass = false
   if #IslandData > 0 then
     for index,island in pairs(IslandData) do
       if Boat.X >= island[2] -5 and Boat.X <= island[2] + SpriteSize.X*island[4] and Boat.Y >= island[3] -5 and Boat.Y <= island[3] + SpriteSize.Y*island[4] then
@@ -17,6 +17,16 @@ function CheckIslandBounds()
         Boat.IsAtIsland = false
       end
     end
+  end
+end
+
+function CheckEggBounds()
+  for index,island in pairs(IslandData) do
+    if (math.abs(Boat.X - island[2]) < 10) and (math.abs(Boat.Y - island[3]) < 10 ) then
+      BackgroundColor( math.random(1, 9) )
+      break
+    end
+
   end
 end
 
