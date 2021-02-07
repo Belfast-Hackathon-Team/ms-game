@@ -1,6 +1,7 @@
 local normalPlaying = false
 local battlePlaying = false
 local fasterPlaying = false
+local endPlaying = false
 
 local fxPlaying = false
 
@@ -50,6 +51,23 @@ function PlayFaster()
     PlaySong( 1, true )
     fasterPlaying = true
     normalPlaying = false
+  end
+end
+
+function PlayWellerman()
+  StopSong()
+  PlaySong(3, true)
+end
+
+function EndGameSound(victory)
+  if not (endPlaying) then
+    StopSong()
+    endPlaying = true
+    if(victory) then
+      PlaySong(4, false)
+    else
+      PlaySong(5, false)
+    end
   end
 end
 

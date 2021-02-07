@@ -5,7 +5,6 @@ LoadScript("physics-boat")
 LoadScript("physics-island")
 LoadScript("physics-egg")
 LoadScript("physics-ai")
---LoadScript("boat-cannon")
 -- Load scenes here
 
 
@@ -53,18 +52,41 @@ Player = {
 }
 
 ListOfActiveIslands = {}
-local TimeLeft = 0
+local TimeLeft = 1
+GameStarted = false
+GameFinished = false
 
 function Init()
   BackgroundColor( 2 )
-  PlayNormal()
+  PlayWellerman()
+  GameStarted = false
+  GameFinished = false
 end
 
 function Update(timeDelta)
+  if not (GameStarted) and not (GameFinished) then
+    StartScreen()
+    return
+  elseif (GameFinished) then
+    EndScreen()
+    return
+  end
   BoatPhysics()
   AiPhysics()
   EggPhysics()
-  TimeLeft = TickTimer(1.3)
+  CheckTime()
+end
+
+function CheckTime()
+  if(TimeLeft > 0) then
+    TimeLeft = TickTimer(1.3)
+    if(TimeLeft <= 15) then
+      PlayFaster()
+    end
+    PlayNormal()
+  else
+    GameFinished = true
+  end
 end
 
 function DrawCompass()
@@ -81,6 +103,13 @@ function DrawBoatPos()
 end
 
 function Draw()
+  if not (GameStarted) and not (GameFinished) then
+    DrawStartScreen()
+    return
+  elseif (GameFinished) then
+    DrawEndScreen()
+    return
+  end
   RedrawDisplay()
   DrawSprite(1, AI.X, AI.Y, false, false, DrawMode.Sprite)
   DrawText( Boat.Direction, 100, 100, DrawMode.UI, "large", 14 )
@@ -90,4 +119,35 @@ function Draw()
   ChangeBoatSprite()
   DrawBoatPos()
   DrawText( string.format("Time: %.0f", (TimeLeft / 100)), 210, 0, DrawMode.UI, "small", 14, -3 )
+end
+
+function StartScreen()
+  if Button(Buttons.B, InputState.Down, 0) then
+    GameStarted = true
+  end
+end
+
+function DrawStartScreen()
+  DrawText("Press B To Start", 60, 450, DrawMode.UI, "large", 14)
+  DrawText("Welcome to Eggsplorers!", 40, 30, DrawMode.UI, "large", 14)
+  DrawText("Controls: ", 90, 50, DrawMode.UI, "large", 14)
+  DrawText("Up    ->  Accelerate", 45, 70, DrawMode.UI, "medium", 14)
+  DrawText("Down  ->  Deccelerate", 45, 80, DrawMode.UI, "medium", 14)
+  DrawText("Right ->  Turn right", 45, 90, DrawMode.UI, "medium", 14)
+  DrawText("Left  ->  Turn left", 45, 100, DrawMode.UI, "medium", 14)
+  DrawText("B     ->  Drop anchor", 45, 110, DrawMode.UI, "medium", 14)
+  DrawText("You must be travelling at minimum speed", 10, 150, DrawMode.UI, "medium", 14, -2)
+  DrawText("to drop your anchor.", 60, 160, DrawMode.UI, "medium", 14, -2)
+end
+
+function EndScreen(victory)
+  if Button(Buttons.B, InputState.Down, 0) then
+    -- TODO: end screen functions
+  end
+  EndGameSound(victory)
+end
+
+function  DrawEndScreen()
+  RedrawDisplay()
+  DrawText("Game Over!", 60, 450, DrawMode.UI, "large", 14)
 end
