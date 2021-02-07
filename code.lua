@@ -4,7 +4,7 @@ LoadScript("timer")
 LoadScript("physics-boat")
 LoadScript("physics-island")
 LoadScript("physics-egg")
-LoadScript("physics-ai")
+--LoadScript("physics-ai")
 --LoadScript("boat-cannon")
 -- Load scenes here
 
@@ -18,6 +18,7 @@ Boat = {
   MinSpeed = 0.1,
   IsAnchored = false,
   IsAtIsland = false,
+  IsBoat = true,
 
   X = 100,
   Y = 50,
@@ -61,7 +62,7 @@ end
 
 function Update(timeDelta)
   BoatPhysics()
-  AiPhysics()
+  --AiPhysics()
   EggPhysics()
   TimeLeft = TickTimer(1.3)
 end
