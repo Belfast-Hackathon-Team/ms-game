@@ -3,9 +3,6 @@ function EggPhysics()
   EggMovement()
 end
 
-function BoatToEgg(Boat)
-
-end
 
 function EggMovement()
   if not Boat.IsBoat then

@@ -53,13 +53,9 @@ Player = {
 }
 
 ListOfActiveIslands = {}
-<<<<<<< HEAD
-local TimeLeft = 6000
-=======
 local TimeLeft = 1
 GameStarted = false
 GameFinished = false
->>>>>>> cf12dafbfc72e3204322c4fffae60034cabc5f0a
 
 function Init()
   BackgroundColor( 2 )
@@ -70,7 +66,7 @@ end
 
 function Update(timeDelta)
   if not (GameStarted) and not (GameFinished) then
-    StartScreen()
+    --StartScreen()
     return
   elseif (GameFinished) then
     EndScreen()
