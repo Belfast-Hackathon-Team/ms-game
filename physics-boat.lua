@@ -95,25 +95,6 @@ function ChangeDirection(DirectionalChange)
   if Boat.Direction < 0 then
     Boat.Direction = 315
   end
-
-  -- Change Sprite for direction
-  if Boat.Direction == 0 then
-    -- North
-  elseif Boat.Direction == 45 then
-    -- North East
-  elseif Boat.Direction == 90 then
-    -- East
-  elseif Boat.Direction == 135 then
-    -- South East
-  elseif Boat.Direction == 180 then
-    -- South
-  elseif Boat.Direction == 225 then
-    -- South West
-  elseif Boat.Direction == 270 then
-    -- West
-  elseif Boat.Direction == 315 then
-    -- North West
-  end
 end
 
 local KeysPressed = {}
