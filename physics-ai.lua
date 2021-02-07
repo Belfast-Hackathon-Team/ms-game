@@ -28,50 +28,47 @@ end
 -- Y coord of island: island[3]
 -- Multipler of island: island[4]
 
+AngleLock = false -- used to lock boat on a path around an island
+AngleValue = -1
+
 function CheckIslandBoundsAI() -- This is kinda lazy
   local SpriteSize = SpriteSize()
   if IslandData != nil then
     for index,island in pairs(IslandData) do
       if AI.X >= island[2] -5 and AI.X <= island[2] + SpriteSize.X*island[4] then
         if AI.Y >= island[3] -5 and AI.Y <= island[3] + SpriteSize.Y*island[4] then
-          -- X axis collison
-          if AI.Y <= island[3] or AI.Y >= island[3] + SpriteSize.Y*island[4] then
+          if AngleLock then
+            AI.Direction = AngleValue
+            return true
+          end
+          -- Horizontal wall collison
+          if (math.abs(AI.Y - island[3]) < 5) or (math.abs(AI.Y - island[3] - SpriteSize.Y*island[4]) < 5) then
             CalculateAngle(false) -- Calculates the raw angle
-            if RawAngle > 180 then
-              if RawAngle > 270 then
-                AI.Direction = 0
-              else
-                AI.Direction = 180
-              end
+            if RawAngle <= 180 then
+              AI.Direction = 90
             else
-              if RawAngle < 90 then
-                AI.Direction = 0
-              else
-                AI.Direction = 180
-              end
+              AI.Direction = 270
             end
           else
-            -- Y axis collison
+            -- Vertical wall collison
             CalculateAngle(false) -- Calculates the raw angle
-            if RawAngle < 270 and RawAngle < 90 then
-              if RawAngle > 180 then
-                AI.Direction = 270
-              else
-                AI.Direction = 90
-              end
+            if RawAngle >= 270 or RawAngle <= 90 then
+              AI.Direction = 0
             else
-              if RawAngle < 270 then
-                AI.Direction = 270
-              else
-                AI.Direction = 90
-              end
+              AI.Direction = 180
             end
           end
+          AngleValue = AI.Direction
+          AngleLock = true
           return true
         end
       end
     end
   end
+  if AngleLock then
+    AI.Direction = AngleValue
+  end
+  AngleLock = false
   return false
 end
 
@@ -115,6 +112,10 @@ function AiMovement()
   AI.X = AI.X + AI.DeltaX
 end
 
+function Retarget()
+  IsTargetBoat = true
+end
+
 local BoundaryCounter = 1
 
 function FindTarget()
@@ -125,18 +126,34 @@ function FindTarget()
     TargetY = Boat.Y
   else
     if IsTargetBoat or (math.abs(AI.X - TargetX) < 10 and math.abs(AI.Y - TargetY) < 10) then -- come back to this
-      if BoundaryCounter == 1 then
-        TargetX = math.random(20, 112)
-        TargetY = math.random(20, 100)
-      elseif BoundaryCounter == 2 then
-        TargetX = math.random(152, 244)
-        TargetY = math.random(20, 112)
-      elseif BoundaryCounter == 3 then
-        TargetX = math.random(152, 244)
-        TargetY = math.random(142, 234)
-      elseif BoundaryCounter == 4 then
-        TargetX = math.random(20, 112)
-        TargetY = math.random(142, 234)
+      ValidCoords = false
+      while not ValidCoords do
+        ValidCoords = true
+        if BoundaryCounter == 1 then
+          TargetX = math.random(20, 112)
+          TargetY = math.random(20, 100)
+        elseif BoundaryCounter == 2 then
+          TargetX = math.random(152, 244)
+          TargetY = math.random(20, 112)
+        elseif BoundaryCounter == 3 then
+          TargetX = math.random(152, 244)
+          TargetY = math.random(142, 234)
+        elseif BoundaryCounter == 4 then
+          TargetX = math.random(20, 112)
+          TargetY = math.random(142, 234)
+        end
+        if IslandData != nil then
+          local SpriteSize = SpriteSize()
+          for index,island in pairs(IslandData) do
+            if TargetX >= island[2] -5 and TargetX <= island[2] + SpriteSize.X*island[4] then
+              if TargetY >= island[3] -5 and TargetY <= island[3] + SpriteSize.Y*island[4] then
+                ValidCoords = false
+              end
+            end
+          end
+        end
+      end
+      if BoundaryCounter == 4 then
         BoundaryCounter = 0
       end
       BoundaryCounter = BoundaryCounter + 1
