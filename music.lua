@@ -90,3 +90,7 @@ end
 function CollectEggSound()
   PlaySound(7, 2)
 end
+
+function PlayExplosionSound()
+  PlaySound(8,3)
+end
