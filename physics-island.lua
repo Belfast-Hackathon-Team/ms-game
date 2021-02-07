@@ -12,7 +12,7 @@ function DrawIslands()
 
         DrawSpriteBlock(index,x,y,multiplier,multiplier,false,false,DrawMode.Sprite,0,true,false)
         if not island[5] then
-          DrawSprite(0, x+5, y+5, false, false, DrawMode.Sprite) --egg
+          DrawSprite(0, island[6], island[7], false, false, DrawMode.Sprite) --egg
         end
       end
     end
@@ -23,23 +23,28 @@ function GenerateIslands()
   local Islands = {}
 
   for i = 1,numIslands do
-      local multiplier = 4
-      local islandRanges = {16, 86, 156, 220} -- 16 -> 220
-      local islandSpriteIndexes = {4,68}
-      local islandSpriteIndex = islandSpriteIndexes[math.random(1,2)]
+  local multiplier = 0
+  local islandRanges = {16, 86, 156, 220} -- 16 -> 220
+  local islandSpriteIndexes = {4,68}
+  local islandSpriteIndex = islandSpriteIndexes[math.random(1,2)]
+  local islandX = math.random(islandRanges[i],islandRanges[i+1])
+  local islandY = math.random(islandRanges[i], islandRanges[i+1])
+  local captured = false
+  local spriteSize = 0
 
-      if islandSpriteIndex == 4 then
-        multiplier = 4
-      elseif islandSpriteIndex == 68 then
-        multiplier = 8
-      end
+  if islandSpriteIndex == 4 then
+    multiplier = 4
+    spriteSize = {12,12}
+  elseif islandSpriteIndex == 68 then
+    multiplier = 8
+    spriteSize = {50,50}
+  end
 
-      local islandX = math.random(islandRanges[i],islandRanges[i+1])
-      local islandY = math.random(islandRanges[i], islandRanges[i+1])
-      local captured = false
+  local eggX = islandX+math.random(1, spriteSize[1])
+  local eggY = islandY+math.random(1, spriteSize[2])
 
-      island = {islandSpriteIndex, islandX, islandY, multiplier, captured}
-      Islands[i] = island
+  island = {islandSpriteIndex, islandX, islandY, multiplier, captured, eggX, eggY}
+  Islands[i] = island
   end
   AI.IsHidden = false
   return Islands

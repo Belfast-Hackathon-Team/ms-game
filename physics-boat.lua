@@ -5,8 +5,11 @@ function BoatPhysics()
   CheckMapBounds()
 end
 
+local forbidden = "none"
+local MapSize = TilemapSize()
+local SpriteSize = SpriteSize()
+
 function CheckIslandBounds()
-  local SpriteSize = SpriteSize()
   if #IslandData > 0 then
     for index,island in pairs(IslandData) do
       if Boat.X >= island[2] -5 and Boat.X <= island[2] + SpriteSize.X*island[4] and Boat.Y >= island[3] -5 and Boat.Y <= island[3] + SpriteSize.Y*island[4] then
@@ -21,22 +24,24 @@ end
 
 function CheckEggBounds()
   for index,island in pairs(IslandData) do
-    if (math.abs(Boat.X - island[2]) < 10) and (math.abs(Boat.Y - island[3]) < 10 ) and not island[5] then
+    if (math.abs(Boat.X - island[6]) < 10) and (math.abs(Boat.Y - island[7]) < 10 ) and not island[5] then
       Boat.Score = Boat.Score + 1
       island[5] = true
+      CollectEggSound()
       break
     end
-
   end
 end
 
 function ChangeBoatSprite()
   if Boat.IsAtIsland then
-    DrawSprite(0, Boat.X, Boat.Y, false, false, DrawMode.Sprite)
+    DrawSpriteBlock(34,Boat.X,Boat.Y,2,2,false,false,DrawMode.Sprite,0,true,false)
     Boat.IsBoat = false --makes them an egg
     Boat.Speed = 0.5
+    HopSound()
   else
     Boat.IsBoat = true
+    StopHopSound()
     -- Change Sprite for direction
     if Boat.Direction == 0 then
       DrawSpriteBlock(128,Boat.X,Boat.Y,1,2,false,false,DrawMode.Sprite,0,true,false)
@@ -65,23 +70,24 @@ function RefreshMap()
 end
 
 function CheckMapBounds()
-  local MapSize = TilemapSize()
-  local SpriteSize = SpriteSize()
-
-  if Boat.X + SpriteSize.X > MapSize.x then
+  if (Boat.X + SpriteSize.X > MapSize.x) and not (forbidden == "right") then
     -- Boat has went right of the map
+    forbidden = "left"
     Boat.X = 0
     RefreshMap()
-  elseif Boat.X < 0 then
+  elseif Boat.X < 0 and not (forbidden == "left") then
     -- Boat has went left of the map
+    forbidden = "right"
     Boat.X = MapSize.X - SpriteSize.X
     RefreshMap()
-  elseif Boat.Y + (SpriteSize.Y * 2) + 8 > MapSize.Y then
+  elseif (Boat.Y + (SpriteSize.Y * 2) + 8 > MapSize.Y) and not (forbidden == "down") then
     -- Boat has went below map
+    forbidden = "up"
     Boat.Y = 0
     RefreshMap()
-  elseif Boat.Y < 0 then
+  elseif Boat.Y < 0 and not (forbidden == "up") then
     -- Boat above map
+    forbidden = "down"
     Boat.Y = MapSize.Y - (SpriteSize.Y * 2) - 8
     RefreshMap()
   end
@@ -125,6 +131,17 @@ function BoatMovement()
 
     if Boat.Speed > 0 then
       Boat.IsAnchored = false
+    end
+
+    -- Stops you going back to where you came from
+    if(Boat.X > MapSize.x) and (forbidden == "right") then
+      ChangeDirection(-45)
+    elseif (Boat.X < 0) and (forbidden == "left") then
+      ChangeDirection(-45)
+    elseif (Boat.Y + (SpriteSize.Y * 2) + 8 > MapSize.Y) and (forbidden == "down")  then
+      ChangeDirection(-45)
+    elseif (Boat.Y < 0) and (forbidden == "up") then
+      ChangeDirection(-45)
     end
 
     --[[
