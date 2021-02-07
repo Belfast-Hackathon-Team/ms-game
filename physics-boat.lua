@@ -6,7 +6,6 @@ function BoatPhysics()
 end
 
 function CheckIslandBounds()
-  DrawText( Boat.IsAtIsland, 100, 50, DrawMode.UI, "large", 14)
   local SpriteSize = SpriteSize()
   if #IslandData > 0 then
     for index,island in pairs(IslandData) do
@@ -22,8 +21,9 @@ end
 
 function CheckEggBounds()
   for index,island in pairs(IslandData) do
-    if (math.abs(Boat.X - island[2]) < 10) and (math.abs(Boat.Y - island[3]) < 10 ) then
-      BackgroundColor( math.random(1, 9) )
+    if (math.abs(Boat.X - island[2]) < 10) and (math.abs(Boat.Y - island[3]) < 10 ) and not island[5] then
+      Boat.Score = Boat.Score + 1
+      island[5] = true
       break
     end
 
@@ -36,8 +36,25 @@ function ChangeBoatSprite()
     Boat.IsBoat = false --makes them an egg
     Boat.Speed = 0.5
   else
-    DrawSpriteBlock(64,Boat.X,Boat.Y,2,1,false,false,DrawMode.Sprite,0,true,false)
     Boat.IsBoat = true
+    -- Change Sprite for direction
+    if Boat.Direction == 0 then
+      DrawSpriteBlock(128,Boat.X,Boat.Y,1,2,false,false,DrawMode.Sprite,0,true,false)
+    elseif Boat.Direction == 45 then
+      DrawSpriteBlock(226,Boat.X,Boat.Y,2,2,false,false,DrawMode.Sprite,0,true,false)
+    elseif Boat.Direction == 90 then
+      DrawSpriteBlock(64,Boat.X,Boat.Y,2,1,false,false,DrawMode.Sprite,0,true,false)
+    elseif Boat.Direction == 135 then
+      DrawSpriteBlock(194,Boat.X,Boat.Y,2,2,false,false,DrawMode.Sprite,0,true,false)
+    elseif Boat.Direction == 180 then
+      DrawSpriteBlock(129,Boat.X,Boat.Y,1,2,false,false,DrawMode.Sprite,0,true,false)
+    elseif Boat.Direction == 225 then
+      DrawSpriteBlock(192,Boat.X,Boat.Y,2,2,false,false,DrawMode.Sprite,0,true,false)
+    elseif Boat.Direction == 270 then
+      DrawSpriteBlock(112,Boat.X,Boat.Y,2,1,false,false,DrawMode.Sprite,0,true,false)
+    elseif Boat.Direction == 315 then
+      DrawSpriteBlock(224,Boat.X,Boat.Y,2,2,false,false,DrawMode.Sprite,0,true,false)
+    end
   end
 end
 
@@ -97,7 +114,6 @@ function ChangeDirection(DirectionalChange)
   elseif Boat.Direction == 315 then
     -- North West
   end
-
 end
 
 local KeysPressed = {}

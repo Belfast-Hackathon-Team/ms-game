@@ -23,7 +23,8 @@ Boat = {
   Y = 50,
   DeltaX = 0,
   DeltaY = 0,
-  Direction = 0 -- 0 == North, 90 == East, 180 == South, 270 == West#
+  Direction = 0, -- 0 == North, 90 == East, 180 == South, 270 == West#
+  Score = 0,
 
 }
 
@@ -35,7 +36,7 @@ AI = {
   Speed = Boat.MaxSpeed * 0.5,
   DeltaX = 0,
   DeltaY = 0,
-  Direction = 0 -- 0 == North, 90 == East, 180 == South, 270 == West#
+  Direction = 0, -- 0 == North, 90 == East, 180 == South, 270 == West#
 }
 
 -- makeshift inheritance
@@ -48,13 +49,14 @@ Player = {
   Y = 50,
   DeltaX = 0,
   DeltaY = 0,
-  Direction = 0 -- 0 == North, 90 == East, 180 == South, 270 == West
+  Direction = 0, -- 0 == North, 90 == East, 180 == South, 270 == West
 }
 
 ListOfActiveIslands = {}
-local TimeLeft = 1
+local TimeLeft = 6000
 GameStarted = false
 GameFinished = false
+
 
 function Init()
   BackgroundColor( 2 )
@@ -91,15 +93,14 @@ end
 
 function DrawCompass()
   MapSize = TilemapSize()
-  DrawText( "N", (MapSize.x/2)-10, 10, DrawMode.UI, "large", 14 )
-  DrawText( "S", (MapSize.x/2)-10, MapSize.Y*0.88, DrawMode.UI, "large", 14 )
-  DrawText( "W", MapSize.x + 15, (MapSize.Y/2)-10, DrawMode.UI, "large", 14 )
-  DrawText( "E", MapSize.x * 0.95, (MapSize.Y/2)-10, DrawMode.UI, "large", 14 )
+  DrawText( "N", (MapSize.x/2)-10, 10, DrawMode.UI, "large", 1 )
+  DrawText( "S", (MapSize.x/2)-10, MapSize.Y*0.88, DrawMode.UI, "large", 1 )
+  DrawText( "W", MapSize.x + 15, (MapSize.Y/2)-10, DrawMode.UI, "large", 1 )
+  DrawText( "E", MapSize.x * 0.95, (MapSize.Y/2)-10, DrawMode.UI, "large", 1 )
 end
 
-function DrawBoatPos()
-  DrawText( "Pos X: "..math.floor(Boat.X), MapSize.x*0.01, MapSize.y*0.01, DrawMode.UI, "small", 14 )
-  DrawText( "Pos Y: "..math.floor(Boat.Y), MapSize.x*0.01, MapSize.y*0.04, DrawMode.UI, "small", 14 )
+function DrawScore()
+  DrawText("Egg Basket: "..Boat.Score,6, 0, DrawMode.UI, "medium", 15,-3)
 end
 
 function Draw()
@@ -112,13 +113,12 @@ function Draw()
   end
   RedrawDisplay()
   DrawSprite(1, AI.X, AI.Y, false, false, DrawMode.Sprite)
-  DrawText( Boat.Direction, 100, 100, DrawMode.UI, "large", 14 )
-  DrawText( AI.Direction, 100, 200, DrawMode.UI, "large", 14 )
+  DrawText( AI.Direction, 100, 200, DrawMode.UI, "large", 15 )
   DrawCompass()
   DrawIslands()
   ChangeBoatSprite()
-  DrawBoatPos()
-  DrawText( string.format("Time: %.0f", (TimeLeft / 100)), 210, 0, DrawMode.UI, "small", 14, -3 )
+  DrawScore()
+  DrawText( string.format("Time: %.0f", (TimeLeft / 100)), 210, 0, DrawMode.UI, "medium", 15, -3 )
 end
 
 function StartScreen()

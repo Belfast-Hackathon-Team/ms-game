@@ -3,7 +3,6 @@ IslandData = {}
 local IslandTypes = {"Obstacle","Small","Medium","Large"}
 
 function DrawIslands()
-  DrawText( "Island Count: "..#IslandData, 100, 170, DrawMode.UI, "large", 14 )
     if #IslandData > 0 then
       for index,island in pairs(IslandData) do
         local index = island[1]
@@ -11,19 +10,16 @@ function DrawIslands()
         local y = island[3]
         local multiplier = island[4]
 
-        DrawText( "Island X: "..x, 30, 20, DrawMode.UI, "large", 14 )
-        DrawText( "Island Y: "..y, 30, 30, DrawMode.UI, "large", 14 )
-
-        DrawText( "Egg X: "..x+5, 30, 150, DrawMode.UI, "large", 14 )
-        DrawText( "Egg Y: "..y+5, 30, 160, DrawMode.UI, "large", 14 )
         DrawSpriteBlock(index,x,y,multiplier,multiplier,false,false,DrawMode.Sprite,0,true,false)
-        DrawSprite(0, x+5, y+5, false, false, DrawMode.Sprite) --egg
+        if not island[5] then
+          DrawSprite(0, x+5, y+5, false, false, DrawMode.Sprite) --egg
+        end
       end
     end
 end
 
 function GenerateIslands()
-  local numIslands = 1--math.random(1,3)
+  local numIslands = math.random(1,3)
   local Islands = {}
 
   for i = 1,numIslands do
@@ -40,8 +36,9 @@ function GenerateIslands()
 
       local islandX = math.random(islandRanges[i],islandRanges[i+1])
       local islandY = math.random(islandRanges[i], islandRanges[i+1])
+      local captured = false
 
-      island = {islandSpriteIndex, islandX, islandY, multiplier}
+      island = {islandSpriteIndex, islandX, islandY, multiplier, captured}
       Islands[i] = island
   end
 
