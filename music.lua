@@ -3,7 +3,8 @@ local battlePlaying = false
 local fasterPlaying = false
 local endPlaying = false
 
-local fxPlaying = false
+local hopFxPlaying = false
+local collectFxPlaying = false
 
 normalPlace = 0
 battlePlace = 0
@@ -76,12 +77,16 @@ function AnchorSound()
 end
 
 function HopSound()
-  if not (fxPlaying) then
-    fxPlaying = true
+  if not (hopFxPlaying) then
+    hopFxPlaying = true
     PlaySound(5, 1)
   end
 end
 
 function StopHopSound()
-  fxPlaying = false
+  hopFxPlaying = false
+end
+
+function CollectEggSound()
+  PlaySound(7, 2)
 end

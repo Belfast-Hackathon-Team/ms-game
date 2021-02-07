@@ -24,6 +24,7 @@ function CheckEggBounds()
     if (math.abs(Boat.X - island[6]) < 10) and (math.abs(Boat.Y - island[7]) < 10 ) and not island[5] then
       Boat.Score = Boat.Score + 1
       island[5] = true
+      CollectEggSound()
       break
     end
   end
