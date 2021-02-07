@@ -71,10 +71,11 @@ function RefreshMap()
   AI.X = math.random(30,150)
   AI.Y = math.random(30,150)
   if #IslandData >0 then
+    AI.IsHidden = false
     for index,island in pairs(IslandData) do
       if AI.X >= island[2] -5 and AI.X <= island[2] + SpriteSize.X*island[4] and AI.Y >= island[3] -5 and AI.Y <= island[3] + SpriteSize.Y*island[4] then
-        AI.X = AI.X + math.random(-10,10)
-        AI.Y = AI.Y + math.random(-10,10)
+        AI.X = AI.X + math.random(10, 50)
+        AI.Y = AI.Y + math.random(10, 50)
       end
     end
   end

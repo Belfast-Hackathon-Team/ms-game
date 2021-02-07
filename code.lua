@@ -31,9 +31,10 @@ Boat = {
 AI = {
   --QuadgrantBoundaries = {{{10, 122}, {10, 110}}, {{142, 254}, {10, 110}}, { {142, 254}, {10, 110} }, { {10, 122}, {142, 254} } }
   --SpawnQuadrant = math.random(1, 4) -- 1 representing the top left of the map going clockwise
-  X = 40, --math.random(QuadgrantBoundaries[SpawnQuadrant][1][1], QuadgrantBoundaries[SpawnQuadrant][1][2]),
-  Y = 220, --math.random(QuadgrantBoundaries[SpawnQuadrant][2][1], QuadgrantBoundaries[SpawnQuadrant][2][2]),
+  X = -20, --math.random(QuadgrantBoundaries[SpawnQuadrant][1][1], QuadgrantBoundaries[SpawnQuadrant][1][2]),
+  Y = -20, --math.random(QuadgrantBoundaries[SpawnQuadrant][2][1], QuadgrantBoundaries[SpawnQuadrant][2][2]),
   Speed = Boat.MaxSpeed * 0.5,
+  IsHidden = true,
   DeltaX = 0,
   DeltaY = 0,
   Direction = 0, -- 0 == North, 90 == East, 180 == South, 270 == West#
@@ -115,7 +116,6 @@ function Draw()
   end
   RedrawDisplay()
   DrawSpriteBlock(32,AI.X,AI.Y,2,2,false,false,DrawMode.Sprite,0,true,false)
-  DrawText( AI.Direction, 100, 200, DrawMode.UI, "large", 15 )
   DrawCompass()
   DrawIslands()
   ChangeBoatSprite()

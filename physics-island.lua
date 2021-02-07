@@ -46,6 +46,6 @@ function GenerateIslands()
   island = {islandSpriteIndex, islandX, islandY, multiplier, captured, eggX, eggY}
   Islands[i] = island
   end
-
+  AI.IsHidden = false
   return Islands
 end
