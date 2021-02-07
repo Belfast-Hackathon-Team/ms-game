@@ -13,9 +13,8 @@ function AiPhysics()
   end
   CalculateDistanceFromPlayer()
   FindTarget()
-  if not CheckIslandBoundsAI() then
-    CalculateAngle(true)
-  end
+  CalculateAngle(true)
+  CheckIslandBoundsAI()
   AiMovement()
   CheckPlayerCollison()
 end
@@ -43,11 +42,11 @@ function CheckIslandBoundsAI() -- This is kinda lazy
   local SpriteSize = SpriteSize()
   if IslandData != nil then
     for index,island in pairs(IslandData) do
-      if AI.X >= island[2] -15 and AI.X <= island[2] + SpriteSize.X*island[4] then
-        if AI.Y >= island[3] -15 and AI.Y <= island[3] + SpriteSize.Y*island[4] then
+      if AI.X >= island[2] -5 and AI.X <= island[2] + SpriteSize.X*island[4] then
+        if AI.Y >= island[3] -5 and AI.Y <= island[3] + SpriteSize.Y*island[4] then
           if AngleLock then
             AI.Direction = AngleValue
-            return true
+            return
           end
           -- Horizontal wall collison
           if (math.abs(AI.Y - island[3]) < 5) or (math.abs(AI.Y - island[3] - SpriteSize.Y*island[4]) < 5) then
@@ -68,7 +67,7 @@ function CheckIslandBoundsAI() -- This is kinda lazy
           end
           AngleValue = AI.Direction
           AngleLock = true
-          return true
+          return
         end
       end
     end
@@ -77,7 +76,7 @@ function CheckIslandBoundsAI() -- This is kinda lazy
     AI.Direction = AngleValue
   end
   AngleLock = false
-  return false
+  return
 end
 
 function AiMovement()
