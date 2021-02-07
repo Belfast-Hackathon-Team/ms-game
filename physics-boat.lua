@@ -67,6 +67,17 @@ function RefreshMap()
   IslandData = GenerateIslands()
   DrawIslands()
   Retarget() -- Retargets the AI boat
+  DrawText("P.S!", 40, 40, DrawMode.UI, "medium", math.random(1,10), -2)
+  AI.X = math.random(30,150)
+  AI.Y = math.random(30,150)
+  if #IslandData >0 then
+    for index,island in pairs(IslandData) do
+      if AI.X >= island[2] -5 and AI.X <= island[2] + SpriteSize.X*island[4] and AI.Y >= island[3] -5 and AI.Y <= island[3] + SpriteSize.Y*island[4] then
+        AI.X = AI.X + math.random(-10,10)
+        AI.Y = AI.Y + math.random(-10,10)
+      end
+    end
+  end
 end
 
 function CheckMapBounds()
