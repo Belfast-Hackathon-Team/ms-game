@@ -130,6 +130,7 @@ function StartScreen()
 end
 
 function DrawStartScreen()
+  RedrawDisplay()
   DrawText("Press B To Start", 60, 450, DrawMode.UI, "large", 1)
   DrawText("Welcome to Eggsplorers!", 40, 30, DrawMode.UI, "large",1)
   DrawText("Controls: ", 90, 50, DrawMode.UI, "large", 1)
@@ -146,22 +147,22 @@ end
 
 function EndScreen(victory)
   if Button(Buttons.B, InputState.Down, 0) then
-    -- TODO: end screen functions
+    -- TODO: end game
   end
   EndGameSound(victory)
 end
 
 function  DrawEndScreen()
-  local y = 30
+  local y = 100
   local x = 0
   RedrawDisplay()
-  DrawText("Game Over!", 90, 20, DrawMode.UI, "large", 1)
+  DrawText("Game Over!", 90, 90, DrawMode.UI, "large", 1)
   for i=0,Boat.Score-1,1 do
     if (i % 10 == 0) then
       y= y + 10
       x = 0
     end
-    DrawSprite(0, ((x*10)+70), y, false, false, DrawMode.Sprite)
+    DrawSprite(0, ((x*10)+80), y, false, false, DrawMode.Sprite)
     x = x + 1
   end
   DrawText(string.format("You helped %d eggs escape",Boat.Score), 30, y+20, DrawMode.UI, "large", 1)
