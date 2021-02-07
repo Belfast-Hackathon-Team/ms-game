@@ -1,59 +1,49 @@
-IslandData = nil
+IslandData = {}
 
 local IslandTypes = {"Obstacle","Small","Medium","Large"}
 
-local dictionarySize = 0
-local IslandLocations = {
-
-}
-
 function DrawIslands()
-  if IslandData == nil then
-    IslandData = GenerateIslands()
-  end
+  DrawText( "Island Count: "..#IslandData, 100, 170, DrawMode.UI, "large", 14 )
+    if #IslandData > 0 then
+      for index,island in pairs(IslandData) do
+        local index = island[1]
+        local x = island[2]
+        local y = island[3]
+        local multiplier = island[4]
 
-  for index,island in pairs(IslandData) do
-    DrawSpriteBlock(island[1],island[2],island[3],island[4],island[4],false,false,DrawMode.Sprite,0,true,false)
-    DrawText( "Island Pos X: "..math.floor(island[2]), MapSize.x*0.1, MapSize.y*0.1, DrawMode.UI, "large", 14 )
-    DrawText( "Island Pos Y: "..math.floor(island[3]), MapSize.x*0.1, MapSize.y*0.13, DrawMode.UI, "large", 14 )
-  end
+        DrawText( "Island X: "..x, 30, 20, DrawMode.UI, "large", 14 )
+        DrawText( "Island Y: "..y, 30, 30, DrawMode.UI, "large", 14 )
 
+        DrawText( "Egg X: "..x+5, 30, 150, DrawMode.UI, "large", 14 )
+        DrawText( "Egg Y: "..y+5, 30, 160, DrawMode.UI, "large", 14 )
+        DrawSpriteBlock(index,x,y,multiplier,multiplier,false,false,DrawMode.Sprite,0,true,false)
+        DrawSprite(0, x+5, y+5, false, false, DrawMode.Sprite) --egg
+      end
+    end
 end
 
---function CheckIfIslandExists(XRange, YRange)
-  --for x,y in XRange, YRange do
---end
-
 function GenerateIslands()
-  numIslands = math.random(1,3)
-  Islands = {}
-  local multiplier = 0
-  local islandRangesX = {} -- 16 -> 240
-  local islandRanges = {16, 86, 156, 220} -- 16 -> 220
-  local islandSpriteIndexes = {4,68}
-  local islandSpriteIndex = islandSpriteIndexes[math.random(1,2)]
-
-  if islandSpriteIndex == 4 then
-    multiplier = 4
-  elseif islandSpriteIndex == 68 then
-    multiplier = 8
-  end
+  local numIslands = 1--math.random(1,3)
+  local Islands = {}
 
   for i = 1,numIslands do
-      island = {islandSpriteIndex, math.random(islandRanges[i],islandRanges[i+1]), math.random(islandRanges[i], islandRanges[i+1]), multiplier}
+      local multiplier = 0
+      local islandRanges = {16, 86, 156, 220} -- 16 -> 220
+      local islandSpriteIndexes = {4,68}
+      local islandSpriteIndex = islandSpriteIndexes[math.random(1,2)]
+
+      if islandSpriteIndex == 4 then
+        multiplier = 4
+      elseif islandSpriteIndex == 68 then
+        multiplier = 8
+      end
+
+      local islandX = math.random(islandRanges[i],islandRanges[i+1])
+      local islandY = math.random(islandRanges[i], islandRanges[i+1])
+
+      island = {islandSpriteIndex, islandX, islandY, multiplier}
       Islands[i] = island
   end
 
   return Islands
 end
-
-
-
---function Collide(Boat)
---- Boat and an Island are touching ---hashmap
--- for index, value in pairs(table name) do
---check if along perimeter
---for k,v in pairs(t) do
---    if(t)
---end
---end

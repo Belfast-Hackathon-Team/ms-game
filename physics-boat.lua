@@ -1,34 +1,48 @@
 function BoatPhysics()
+  CheckIslandBounds()
+  CheckEggBounds()
   BoatMovement()
   CheckMapBounds()
-  CheckIslandBounds()
 end
 
 function CheckIslandBounds()
   DrawText( Boat.IsAtIsland, 100, 50, DrawMode.UI, "large", 14)
   local SpriteSize = SpriteSize()
-  Boat.IsAtIsland = false
-  if IslandData != nil then
+  if #IslandData > 0 then
     for index,island in pairs(IslandData) do
-      if Boat.X >= island[2] -5 and Boat.X <= island[2] + SpriteSize.X*island[4] then
-        if Boat.Y >= island[3] -5 and Boat.Y <= island[3] + SpriteSize.Y*island[4] then
-          Boat.IsAtIsland = true
-        end
+      if Boat.X >= island[2] -5 and Boat.X <= island[2] + SpriteSize.X*island[4] and Boat.Y >= island[3] -5 and Boat.Y <= island[3] + SpriteSize.Y*island[4] then
+        Boat.IsAtIsland = true
+        break
+      else
+        Boat.IsAtIsland = false
       end
     end
+  end
+end
+
+function CheckEggBounds()
+  for index,island in pairs(IslandData) do
+    if (math.abs(Boat.X - island[2]) < 10) and (math.abs(Boat.Y - island[3]) < 10 ) then
+      BackgroundColor( math.random(1, 9) )
+      break
+    end
+
   end
 end
 
 function ChangeBoatSprite()
   if Boat.IsAtIsland then
     DrawSprite(0, Boat.X, Boat.Y, false, false, DrawMode.Sprite)
+    Boat.IsBoat = false --makes them an egg
+    Boat.Speed = 0.5
   else
     DrawSpriteBlock(64,Boat.X,Boat.Y,2,1,false,false,DrawMode.Sprite,0,true,false)
+    Boat.IsBoat = true
   end
 end
 
 function RefreshMap()
-  IslandData = nil
+  IslandData = GenerateIslands()
   DrawIslands()
 end
 
@@ -102,7 +116,7 @@ function Remove(table, valueToRemove)
 end
 
 function BoatMovement()
-  if not Boat.IsAtIsland then
+  if Boat.IsBoat then
     Boat.DeltaX = Boat.Speed
     Boat.DeltaY = Boat.Speed
 
@@ -191,15 +205,5 @@ function BoatMovement()
 
     Boat.Y = Boat.Y + Boat.DeltaY
     Boat.X = Boat.X + Boat.DeltaX
-  else -- egg on Island
-    -- Boat.Speed = 0
-    -- Boat.DeltaX *= 0.9
-    --
-    -- if (Button(Buttons.Right, InputState.Down, 0)) then
-    --   Boat.DeltaX = 0.1
-    -- end
-    --
-    -- Boat.Y = Boat.Y + Boat.DeltaY
-    -- Boat.X = Boat.X + Boat.DeltaX
   end
 end
