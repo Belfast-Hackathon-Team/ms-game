@@ -115,9 +115,9 @@ function Draw()
     return
   end
   RedrawDisplay()
-  DrawSpriteBlock(32,AI.X,AI.Y,2,2,false,false,DrawMode.Sprite,0,true,false)
   DrawCompass()
   DrawIslands()
+  DrawSpriteBlock(32,AI.X,AI.Y,2,2,false,false,DrawMode.Sprite,0,true,false)
   ChangeBoatSprite()
   DrawScore()
   DrawText( string.format("Time: %.0f", (TimeLeft / 100)), 210, 0, DrawMode.UI, "medium", 15, -3 )

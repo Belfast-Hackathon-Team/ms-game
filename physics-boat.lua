@@ -44,19 +44,19 @@ function ChangeBoatSprite()
     StopHopSound()
     -- Change Sprite for direction
     if Boat.Direction == 0 then
-      DrawSpriteBlock(128,Boat.X,Boat.Y,1,2,false,false,DrawMode.Sprite,0,true,false)
+      DrawSpriteBlock(130,Boat.X,Boat.Y,1,2,false,false,DrawMode.Sprite,0,true,false)
     elseif Boat.Direction == 45 then
       DrawSpriteBlock(226,Boat.X,Boat.Y,2,2,false,false,DrawMode.Sprite,0,true,false)
     elseif Boat.Direction == 90 then
-      DrawSpriteBlock(64,Boat.X,Boat.Y,2,1,false,false,DrawMode.Sprite,0,true,false)
+      DrawSpriteBlock(80,Boat.X,Boat.Y,2,1,false,false,DrawMode.Sprite,0,true,false)
     elseif Boat.Direction == 135 then
       DrawSpriteBlock(194,Boat.X,Boat.Y,2,2,false,false,DrawMode.Sprite,0,true,false)
     elseif Boat.Direction == 180 then
-      DrawSpriteBlock(129,Boat.X,Boat.Y,1,2,false,false,DrawMode.Sprite,0,true,false)
+      DrawSpriteBlock(131,Boat.X,Boat.Y,1,2,false,false,DrawMode.Sprite,0,true,false)
     elseif Boat.Direction == 225 then
       DrawSpriteBlock(192,Boat.X,Boat.Y,2,2,false,false,DrawMode.Sprite,0,true,false)
     elseif Boat.Direction == 270 then
-      DrawSpriteBlock(112,Boat.X,Boat.Y,2,1,false,false,DrawMode.Sprite,0,true,false)
+      DrawSpriteBlock(96,Boat.X,Boat.Y,2,1,false,false,DrawMode.Sprite,0,true,false)
     elseif Boat.Direction == 315 then
       DrawSpriteBlock(224,Boat.X,Boat.Y,2,2,false,false,DrawMode.Sprite,0,true,false)
     end
@@ -71,11 +71,10 @@ function RefreshMap()
   AI.X = math.random(30,150)
   AI.Y = math.random(30,150)
   if #IslandData >0 then
-    AI.IsHidden = false
     for index,island in pairs(IslandData) do
       if AI.X >= island[2] -5 and AI.X <= island[2] + SpriteSize.X*island[4] and AI.Y >= island[3] -5 and AI.Y <= island[3] + SpriteSize.Y*island[4] then
-        AI.X = AI.X + math.random(10, 50)
-        AI.Y = AI.Y + math.random(10, 50)
+        AI.X = AI.X + math.random(-30,30)
+        AI.Y = AI.Y + math.random(-30,30)
       end
     end
   end
