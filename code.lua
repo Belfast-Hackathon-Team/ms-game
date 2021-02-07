@@ -54,16 +54,21 @@ Player = {
 ListOfActiveIslands = {}
 local TimeLeft = 1
 GameStarted = false
+GameFinished = false
 
 function Init()
   BackgroundColor( 2 )
   PlayWellerman()
   GameStarted = false
+  GameFinished = false
 end
 
 function Update(timeDelta)
-  if not (GameStarted) then
+  if not (GameStarted) and not (GameFinished) then
     StartScreen()
+    return
+  elseif (GameFinished) then
+    EndScreen()
     return
   end
   BoatPhysics()
@@ -80,7 +85,7 @@ function CheckTime()
     end
     PlayNormal()
   else
-    -- TODO: end game
+    GameFinished = true
   end
 end
 
@@ -98,8 +103,11 @@ function DrawBoatPos()
 end
 
 function Draw()
-  if not (GameStarted) then
-      DrawStartScreen()
+  if not (GameStarted) and not (GameFinished) then
+    DrawStartScreen()
+    return
+  elseif (GameFinished) then
+    DrawEndScreen()
     return
   end
   RedrawDisplay()
@@ -119,8 +127,6 @@ function StartScreen()
   end
 end
 
-Controls = "Up -> Accelerate\nDown -> Deccelerate\nRight -> Turn right\nLeft -> Turn Left\nB -> Drop Anchor"
-
 function DrawStartScreen()
   DrawText("Press B To Start", 60, 450, DrawMode.UI, "large", 14)
   DrawText("Welcome to Eggsplorers!", 40, 30, DrawMode.UI, "large", 14)
@@ -132,4 +138,16 @@ function DrawStartScreen()
   DrawText("B     ->  Drop anchor", 45, 110, DrawMode.UI, "medium", 14)
   DrawText("You must be travelling at minimum speed", 10, 150, DrawMode.UI, "medium", 14, -2)
   DrawText("to drop your anchor.", 60, 160, DrawMode.UI, "medium", 14, -2)
+end
+
+function EndScreen(victory)
+  if Button(Buttons.B, InputState.Down, 0) then
+    -- TODO: end screen functions
+  end
+  EndGameSound(victory)
+end
+
+function  DrawEndScreen()
+  RedrawDisplay()
+  DrawText("Game Over!", 60, 450, DrawMode.UI, "large", 14)
 end

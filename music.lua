@@ -1,6 +1,7 @@
 local normalPlaying = false
 local battlePlaying = false
 local fasterPlaying = false
+local endPlaying = false
 
 local fxPlaying = false
 
@@ -56,6 +57,18 @@ end
 function PlayWellerman()
   StopSong()
   PlaySong(3, true)
+end
+
+function EndGameSound(victory)
+  if not (endPlaying) then
+    StopSong()
+    endPlaying = true
+    if(victory) then
+      PlaySong(4, false)
+    else
+      PlaySong(5, false)
+    end
+  end
 end
 
 function AnchorSound()
