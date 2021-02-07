@@ -7,7 +7,6 @@ LoadScript("physics-egg")
 LoadScript("physics-ai")
 -- Load scenes here
 
-
 Boat = {
 ---properties of a Raft
   Height = 0, --- check against pixel art
@@ -130,16 +129,18 @@ function StartScreen()
 end
 
 function DrawStartScreen()
-  DrawText("Press B To Start", 60, 450, DrawMode.UI, "large", 14)
-  DrawText("Welcome to Eggsplorers!", 40, 30, DrawMode.UI, "large", 14)
-  DrawText("Controls: ", 90, 50, DrawMode.UI, "large", 14)
-  DrawText("Up    ->  Accelerate", 45, 70, DrawMode.UI, "medium", 14)
-  DrawText("Down  ->  Deccelerate", 45, 80, DrawMode.UI, "medium", 14)
-  DrawText("Right ->  Turn right", 45, 90, DrawMode.UI, "medium", 14)
-  DrawText("Left  ->  Turn left", 45, 100, DrawMode.UI, "medium", 14)
-  DrawText("B     ->  Drop anchor", 45, 110, DrawMode.UI, "medium", 14)
-  DrawText("You must be travelling at minimum speed", 10, 150, DrawMode.UI, "medium", 14, -2)
-  DrawText("to drop your anchor.", 60, 160, DrawMode.UI, "medium", 14, -2)
+  DrawText("Press B To Start", 60, 450, DrawMode.UI, "large", 1)
+  DrawText("Welcome to Eggsplorers!", 40, 30, DrawMode.UI, "large",1)
+  DrawText("Controls: ", 90, 50, DrawMode.UI, "large", 1)
+  DrawText("Up    ->  Accelerate", 45, 70, DrawMode.UI, "medium", 1)
+  DrawText("Down  ->  Deccelerate", 45, 80, DrawMode.UI, "medium", 1)
+  DrawText("Right ->  Turn right", 45, 90, DrawMode.UI, "medium", 1)
+  DrawText("Left  ->  Turn left", 45, 100, DrawMode.UI, "medium", 1)
+  DrawText("B     ->  Drop anchor", 45, 110, DrawMode.UI, "medium", 1)
+  DrawText("Help as many of your brethren eggscape", 10, 130, DrawMode.UI, "medium", 1, -2)
+  DrawText("as possible in 60 seconds. Sail around", 10, 140, DrawMode.UI, "medium", 1, -2)
+  DrawText("the islands to find them!", 50, 150, DrawMode.UI, "medium", 1, -2)
+  DrawText("P.S: Watch out for the Kraken!", 40, 170, DrawMode.UI, "medium", 1, -2)
 end
 
 function EndScreen(victory)
@@ -150,6 +151,17 @@ function EndScreen(victory)
 end
 
 function  DrawEndScreen()
+  local y = 30
+  local x = 0
   RedrawDisplay()
-  DrawText("Game Over!", 60, 450, DrawMode.UI, "large", 14)
+  DrawText("Game Over!", 90, 20, DrawMode.UI, "large", 1)
+  for i=0,Boat.Score-1,1 do
+    if (i % 10 == 0) then
+      y= y + 10
+      x = 0
+    end
+    DrawSprite(0, ((x*10)+70), y, false, false, DrawMode.Sprite)
+    x = x + 1
+  end
+  DrawText(string.format("You helped %d eggs escape",Boat.Score), 30, y+20, DrawMode.UI, "large", 1)
 end
