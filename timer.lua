@@ -1,4 +1,4 @@
-local timeLeft = 1000;
+local timeLeft = 6000;
 local started = false;
 
 function AddTime(time)
