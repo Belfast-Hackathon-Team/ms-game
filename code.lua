@@ -53,10 +53,12 @@ Player = {
 }
 
 ListOfActiveIslands = {}
+local TimeLeft = 1
+GameStarted = false
+GameFinished = false
 local TimeLeft = 6000
 GameStarted = false
 GameFinished = false
-
 
 function Init()
   BackgroundColor( 2 )
@@ -112,7 +114,7 @@ function Draw()
     return
   end
   RedrawDisplay()
-  DrawSprite(1, AI.X, AI.Y, false, false, DrawMode.Sprite)
+  DrawSpriteBlock(32,AI.X,AI.Y,2,2,false,false,DrawMode.Sprite,0,true,false)
   DrawText( AI.Direction, 100, 200, DrawMode.UI, "large", 15 )
   DrawCompass()
   DrawIslands()
