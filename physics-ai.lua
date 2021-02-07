@@ -1,7 +1,10 @@
 function AiPhysics()
   CalculateDistanceFromPlayer()
   FindTarget()
-  CalculateAngle()
+  if not CheckIslandCollison() then
+    CalculateAngle(true)
+  end
+  CheckIslandBoundsAI()
   AiMovement()
 end
 
@@ -9,13 +12,68 @@ end
 -- Distance of ai from the Player
 -- Player's Direction
 -- player's Speed
---
 
 local DistanceFromPlayer = 0
 local TargetX = 0
 local TargetY = 0
 local Theta = 0
 local IsTargetBoat = true
+local RawAngle = 0
+
+function CheckIslandCollison()
+
+end
+
+-- X coord of island: island[2]
+-- Y coord of island: island[3]
+-- Multipler of island: island[4]
+
+function CheckIslandBoundsAI() -- This is kinda lazy
+  local SpriteSize = SpriteSize()
+  if IslandData != nil then
+    for index,island in pairs(IslandData) do
+      if AI.X >= island[2] -5 and AI.X <= island[2] + SpriteSize.X*island[4] then
+        if AI.Y >= island[3] -5 and AI.Y <= island[3] + SpriteSize.Y*island[4] then
+          -- X axis collison
+          if AI.Y <= island[3] or AI.Y >= island[3] + SpriteSize.Y*island[4] then
+            CalculateAngle(false) -- Calculates the raw angle
+            if RawAngle > 180 then
+              if RawAngle > 270 then
+                AI.Direction = 0
+              else
+                AI.Direction = 180
+              end
+            else
+              if RawAngle < 90 then
+                AI.Direction = 0
+              else
+                AI.Direction = 180
+              end
+            end
+          else
+            -- Y axis collison
+            CalculateAngle(false) -- Calculates the raw angle
+            if RawAngle < 270 and RawAngle < 90 then
+              if RawAngle > 180 then
+                AI.Direction = 270
+              else
+                AI.Direction = 90
+              end
+            else
+              if RawAngle < 270 then
+                AI.Direction = 270
+              else
+                AI.Direction = 90
+              end
+            end
+          end
+          return true
+        end
+      end
+    end
+  end
+  return false
+end
 
 function AiMovement()
   SqrtTwo = 1.41421 -- Approximate Square Root of 2
@@ -60,7 +118,7 @@ end
 local BoundaryCounter = 1
 
 function FindTarget()
-  if DistanceFromPlayer <= 70 then
+  if DistanceFromPlayer <= 70 and not Boat.IsAtIsland then
     StartBattleMusic()
     IsTargetBoat = true
     TargetX = Boat.X
@@ -96,7 +154,7 @@ function CalculateDistanceFromPlayer()
   DistanceFromPlayer = math.sqrt(x + y)
 end
 
-function CalculateAngle()
+function CalculateAngle(RoundAngle)
   boatSpeedMultiplier = 5
   Speed = Boat.Speed * boatSpeedMultiplier
 
@@ -125,12 +183,16 @@ function CalculateAngle()
   end
 
   -- rounding
-  answer = math.floor(answer)
-  mod = answer%45
-  if(mod < 23) then
-    answer = answer - mod
+  if RoundAngle then
+    answer = math.floor(answer)
+    mod = answer%45
+    if(mod < 23) then
+      answer = answer - mod
+    else
+      answer = answer + 45 - mod
+    end
+    AI.Direction = answer
   else
-    answer = answer + 45 - mod
+    RawAngle = answer
   end
-  AI.Direction = answer
 end
