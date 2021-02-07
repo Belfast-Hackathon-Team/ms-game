@@ -25,8 +25,8 @@ function GenerateIslands()
   for i = 1,numIslands do
   local multiplier = 0
   local islandRanges = {16, 86, 156, 220} -- 16 -> 220
-  local islandSpriteIndexes = {4,68}
-  local islandSpriteIndex = islandSpriteIndexes[math.random(1,2)]
+  local islandSpriteIndexes = {4,68,256,384}
+  local islandSpriteIndex = islandSpriteIndexes[math.random(1,4)]
   local islandX = math.random(islandRanges[i],islandRanges[i+1])
   local islandY = math.random(islandRanges[i], islandRanges[i+1])
   local captured = false
@@ -36,6 +36,12 @@ function GenerateIslands()
     multiplier = 4
     spriteSize = {12,12}
   elseif islandSpriteIndex == 68 then
+    multiplier = 8
+    spriteSize = {50,50}
+  elseif islandSpriteIndex == 256 then
+    multiplier = 8
+    spriteSize = {50,50}
+  elseif islandSpriteIndex == 384 then
     multiplier = 8
     spriteSize = {50,50}
   end
