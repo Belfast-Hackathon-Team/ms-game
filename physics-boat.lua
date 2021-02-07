@@ -34,8 +34,10 @@ function ChangeBoatSprite()
     DrawSpriteBlock(34,Boat.X,Boat.Y,2,2,false,false,DrawMode.Sprite,0,true,false)
     Boat.IsBoat = false --makes them an egg
     Boat.Speed = 0.5
+    HopSound()
   else
     Boat.IsBoat = true
+    StopHopSound()
     -- Change Sprite for direction
     if Boat.Direction == 0 then
       DrawSpriteBlock(128,Boat.X,Boat.Y,1,2,false,false,DrawMode.Sprite,0,true,false)
