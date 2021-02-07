@@ -116,7 +116,6 @@ function Draw()
   end
   RedrawDisplay()
   DrawSpriteBlock(32,AI.X,AI.Y,2,2,false,false,DrawMode.Sprite,0,true,false)
-  DrawText( AI.Direction, 100, 200, DrawMode.UI, "large", 15 )
   DrawCompass()
   DrawIslands()
   ChangeBoatSprite()
