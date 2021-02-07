@@ -131,7 +131,7 @@ end
 
 function DrawStartScreen()
   RedrawDisplay()
-  DrawText("Press B To Start", 60, 450, DrawMode.UI, "large", 1)
+  DrawText("Press B Button To Start", 40, 450, DrawMode.UI, "large", 1)
   DrawText("Welcome to Eggsplorers!", 40, 30, DrawMode.UI, "large",1)
   DrawText("Controls: ", 90, 50, DrawMode.UI, "large", 1)
   DrawText("Up    ->  Accelerate", 45, 70, DrawMode.UI, "medium", 1)
