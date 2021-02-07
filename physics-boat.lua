@@ -21,18 +21,17 @@ end
 
 function CheckEggBounds()
   for index,island in pairs(IslandData) do
-    if (math.abs(Boat.X - island[2]) < 10) and (math.abs(Boat.Y - island[3]) < 10 ) and not island[5] then
+    if (math.abs(Boat.X - island[6]) < 10) and (math.abs(Boat.Y - island[7]) < 10 ) and not island[5] then
       Boat.Score = Boat.Score + 1
       island[5] = true
       break
     end
-
   end
 end
 
 function ChangeBoatSprite()
   if Boat.IsAtIsland then
-    DrawSprite(0, Boat.X, Boat.Y, false, false, DrawMode.Sprite)
+    DrawSpriteBlock(34,Boat.X,Boat.Y,2,2,false,false,DrawMode.Sprite,0,true,false)
     Boat.IsBoat = false --makes them an egg
     Boat.Speed = 0.5
   else
