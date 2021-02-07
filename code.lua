@@ -1,3 +1,4 @@
+-- Eggsplorers
 -- Load scripts here
 LoadScript("music")
 LoadScript("timer")
