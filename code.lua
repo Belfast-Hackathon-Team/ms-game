@@ -53,9 +53,16 @@ Player = {
 }
 
 ListOfActiveIslands = {}
+<<<<<<< HEAD
 local TimeLeft = 1
 GameStarted = false
 GameFinished = false
+=======
+local TimeLeft = 6000
+GameStarted = false
+GameFinished = false
+
+>>>>>>> 1f98511c8b8b24ece73bc61dc852595e031e3702
 
 function Init()
   BackgroundColor( 2 )
