@@ -23,7 +23,7 @@ function GenerateIslands()
   local Islands = {}
 
   for i = 1,numIslands do
-      local multiplier = 0
+      local multiplier = 4
       local islandRanges = {16, 86, 156, 220} -- 16 -> 220
       local islandSpriteIndexes = {4,68}
       local islandSpriteIndex = islandSpriteIndexes[math.random(1,2)]
@@ -41,6 +41,6 @@ function GenerateIslands()
       island = {islandSpriteIndex, islandX, islandY, multiplier, captured}
       Islands[i] = island
   end
-
+  AI.IsHidden = false
   return Islands
 end

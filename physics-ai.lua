@@ -1,18 +1,3 @@
-function AiPhysics()
-  CalculateDistanceFromPlayer()
-  FindTarget()
-  if not CheckIslandCollison() then
-    CalculateAngle(true)
-  end
-  CheckIslandBoundsAI()
-  AiMovement()
-end
-
--- Requirements
--- Distance of ai from the Player
--- Player's Direction
--- player's Speed
-
 local DistanceFromPlayer = 0
 local TargetX = 0
 local TargetY = 0
@@ -20,8 +5,31 @@ local Theta = 0
 local IsTargetBoat = true
 local RawAngle = 0
 
-function CheckIslandCollison()
+function AiPhysics()
+  if AI.IsHidden then
+    AI.X = -20
+    AI.Y = -20
+    return
+  end
+  CalculateDistanceFromPlayer()
+  FindTarget()
+  if not CheckIslandBoundsAI() then
+    CalculateAngle(true)
+  end
+  AiMovement()
+  CheckPlayerCollison()
+end
 
+-- Requirements
+-- Distance of ai from the Player
+-- Player's Direction
+-- player's Speed
+
+function CheckPlayerCollison()
+  if (math.abs(AI.X - Boat.X) < 10) and (math.abs(AI.Y - Boat.Y) < 10) then
+    Boat.Score = Boat.Score - 1
+    AI.IsHidden = true
+  end
 end
 
 -- X coord of island: island[2]
@@ -35,8 +43,8 @@ function CheckIslandBoundsAI() -- This is kinda lazy
   local SpriteSize = SpriteSize()
   if IslandData != nil then
     for index,island in pairs(IslandData) do
-      if AI.X >= island[2] -5 and AI.X <= island[2] + SpriteSize.X*island[4] then
-        if AI.Y >= island[3] -5 and AI.Y <= island[3] + SpriteSize.Y*island[4] then
+      if AI.X >= island[2] -15 and AI.X <= island[2] + SpriteSize.X*island[4] then
+        if AI.Y >= island[3] -15 and AI.Y <= island[3] + SpriteSize.Y*island[4] then
           if AngleLock then
             AI.Direction = AngleValue
             return true
@@ -75,7 +83,7 @@ end
 function AiMovement()
   SqrtTwo = 1.41421 -- Approximate Square Root of 2
   -- Change Boat Direction of Travel
-  if AI.Direction == 0 then
+  if AI.Direction == 0 or AI.Direction == 360 then
     -- North
     AI.DeltaX = 0
     AI.DeltaY = - AI.Speed
@@ -145,8 +153,8 @@ function FindTarget()
         if IslandData != nil then
           local SpriteSize = SpriteSize()
           for index,island in pairs(IslandData) do
-            if TargetX >= island[2] -5 and TargetX <= island[2] + SpriteSize.X*island[4] then
-              if TargetY >= island[3] -5 and TargetY <= island[3] + SpriteSize.Y*island[4] then
+            if TargetX >= island[2] -25 and TargetX <= island[2] + SpriteSize.X*island[4] then
+              if TargetY >= island[3] -25 and TargetY <= island[3] + SpriteSize.Y*island[4] then
                 ValidCoords = false
               end
             end
