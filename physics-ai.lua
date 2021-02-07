@@ -26,7 +26,8 @@ end
 
 function CheckPlayerCollison()
   if (math.abs(AI.X - Boat.X) < 10) and (math.abs(AI.Y - Boat.Y) < 10) then
-    Boat.Score = Boat.Score - 1
+    if Boat.Score > 0 then
+      Boat.Score = Boat.Score - 1
     AI.IsHidden = true
     StopBattleMusic()
     PlayExplosionSound()
