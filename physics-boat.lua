@@ -61,6 +61,7 @@ end
 function RefreshMap()
   IslandData = GenerateIslands()
   DrawIslands()
+  Retarget() -- Retargets the AI boat
 end
 
 function CheckMapBounds()
